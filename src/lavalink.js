@@ -1,5 +1,5 @@
 import { LavalinkManager } from "lavalink-client";
-import { errorEmbed } from "./util/embeds.js";
+import { errorEmbed, infoEmbed } from "./util/embeds.js";
 import { showNowPlaying, refreshNowPlaying, finalizeNowPlaying, flashPanelStatus } from "./util/nowPlaying.js";
 
 export function createLavalinkManager(client) {
@@ -51,6 +51,14 @@ export function createLavalinkManager(client) {
 
   manager.on("playerDestroy", (player) => {
     finalizeNowPlaying(client, player, "👋 Left the voice channel.");
+  });
+
+  // Bot got dragged/kicked out of the channel etc. — the player survives (autoReconnect:
+  // true, destroyPlayer: false above), so playerDestroy won't fire here. Flash the panel
+  // instead of leaving it stuck showing stale "now playing" info; a later trackStart or
+  // playerUpdate overwrites this again automatically if it reconnects.
+  manager.on("playerDisconnect", (player) => {
+    flashPanelStatus(client, player, infoEmbed("👋 Left the voice channel."));
   });
 
   manager.on("trackError", (player, track) => {
