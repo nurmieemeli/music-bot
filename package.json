@@ -1,0 +1,16 @@
+{
+  "name": "music-bot",
+  "version": "1.0.0",
+  "description": "Discord music bot with YouTube, Spotify, and SoundCloud support via Lavalink",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "deploy-commands": "node src/deploy-commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "lavalink-client": "^2.10.3",
+    "dotenv": "^16.4.5"
+  }
+}
