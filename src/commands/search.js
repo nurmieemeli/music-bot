@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder } from "discord.js";
+import { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, MessageFlags } from "discord.js";
 import { getOrCreatePlayer } from "../util/voice.js";
 import { errorEmbed, infoEmbed } from "../util/embeds.js";
 import { formatDuration } from "../util/time.js";
@@ -18,7 +18,7 @@ export default {
   autocomplete: respondWithSuggestions,
 
   async execute(interaction, client) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const player = await getOrCreatePlayer(interaction, client);
     if (!player) return;
@@ -65,7 +65,7 @@ export async function handleSearchSelect(interaction, client) {
   }
 
   if (interaction.user.id !== pending.requesterId) {
-    await interaction.reply({ embeds: [errorEmbed("Only the person who searched can pick a result.")], ephemeral: true });
+    await interaction.reply({ embeds: [errorEmbed("Only the person who searched can pick a result.")], flags: MessageFlags.Ephemeral });
     return;
   }
 

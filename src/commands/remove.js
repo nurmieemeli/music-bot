@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { infoEmbed, errorEmbed } from "../util/embeds.js";
 
@@ -18,7 +18,7 @@ export default {
     const index = position - 1;
 
     if (index < 0 || index >= player.queue.tracks.length) {
-      await interaction.reply({ embeds: [errorEmbed("Invalid queue position.")], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed("Invalid queue position.")], flags: MessageFlags.Ephemeral });
       return;
     }
 
@@ -27,7 +27,7 @@ export default {
 
     await interaction.reply({
       embeds: [infoEmbed(`🗑️ Removed **${removedTrack.info.title}** from the queue.`)],
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
   },
 };

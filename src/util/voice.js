@@ -1,4 +1,4 @@
-import { PermissionsBitField } from "discord.js";
+import { PermissionsBitField, MessageFlags } from "discord.js";
 import { errorEmbed } from "./embeds.js";
 
 export function getVoiceChannel(interaction) {
@@ -11,7 +11,7 @@ async function replyError(interaction, message) {
   if (interaction.deferred || interaction.replied) {
     await interaction.editReply(payload);
   } else {
-    await interaction.reply({ ...payload, ephemeral: true });
+    await interaction.reply({ ...payload, flags: MessageFlags.Ephemeral });
   }
 }
 

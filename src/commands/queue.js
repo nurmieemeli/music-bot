@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { queueEmbed } from "../util/embeds.js";
 
@@ -13,6 +13,6 @@ export default {
     if (!player) return;
 
     const page = (interaction.options.getInteger("page") ?? 1) - 1;
-    await interaction.reply({ embeds: [queueEmbed(player, Math.max(0, page))], ephemeral: true });
+    await interaction.reply({ embeds: [queueEmbed(player, Math.max(0, page))], flags: MessageFlags.Ephemeral });
   },
 };

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { infoEmbed } from "../util/embeds.js";
 
@@ -10,6 +10,6 @@ export default {
     if (!player) return;
 
     await player.destroy();
-    await interaction.reply({ embeds: [infoEmbed("⏹️ Stopped and left the voice channel.")], ephemeral: true });
+    await interaction.reply({ embeds: [infoEmbed("⏹️ Stopped and left the voice channel.")], flags: MessageFlags.Ephemeral });
   },
 };

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { infoEmbed } from "../util/embeds.js";
 
@@ -46,6 +46,6 @@ export default {
     const type = interaction.options.getString("type", true);
     await APPLY[type](player.filterManager);
 
-    await interaction.reply({ embeds: [infoEmbed(LABELS[type])], ephemeral: true });
+    await interaction.reply({ embeds: [infoEmbed(LABELS[type])], flags: MessageFlags.Ephemeral });
   },
 };

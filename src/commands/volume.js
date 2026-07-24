@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { infoEmbed } from "../util/embeds.js";
 import { refreshNowPlaying } from "../util/nowPlaying.js";
@@ -18,7 +18,7 @@ export default {
     const level = interaction.options.getInteger("level", true);
     await player.setVolume(level);
 
-    await interaction.reply({ embeds: [infoEmbed(`🔊 Volume set to ${level}%.`)], ephemeral: true });
+    await interaction.reply({ embeds: [infoEmbed(`🔊 Volume set to ${level}%.`)], flags: MessageFlags.Ephemeral });
     await refreshNowPlaying(client, player);
   },
 };

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { fetchLyrics } from "../util/lyrics.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { infoEmbed, errorEmbed } from "../util/embeds.js";
@@ -14,11 +14,11 @@ export default {
 
     const track = player.queue.current;
     if (!track) {
-      await interaction.reply({ embeds: [errorEmbed("Nothing is playing.")], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed("Nothing is playing.")], flags: MessageFlags.Ephemeral });
       return;
     }
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     if (!process.env.GENIUS_API_KEY) {
       await interaction.editReply({ embeds: [errorEmbed("Lyrics lookup isn't configured (missing GENIUS_API_KEY).")] });

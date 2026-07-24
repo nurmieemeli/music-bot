@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { errorEmbed } from "../util/embeds.js";
 import { handleSearchSelect } from "../commands/search.js";
 import { handlePlayerButton } from "../util/playerButtons.js";
@@ -25,7 +26,7 @@ export default {
         await command.execute(interaction, client);
       } catch (err) {
         console.error(`[Command:${interaction.commandName}]`, err);
-        const payload = { embeds: [errorEmbed("Something went wrong running that command.")], ephemeral: true };
+        const payload = { embeds: [errorEmbed("Something went wrong running that command.")], flags: MessageFlags.Ephemeral };
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp(payload).catch(() => {});
         } else {
@@ -41,7 +42,7 @@ export default {
       } catch (err) {
         console.error("[SearchSelect]", err);
         await interaction
-          .reply({ embeds: [errorEmbed("Something went wrong queueing that track.")], ephemeral: true })
+          .reply({ embeds: [errorEmbed("Something went wrong queueing that track.")], flags: MessageFlags.Ephemeral })
           .catch(() => {});
       }
       return;
@@ -52,7 +53,7 @@ export default {
         await handlePlayerButton(interaction, client);
       } catch (err) {
         console.error("[PlayerButton]", err);
-        const payload = { embeds: [errorEmbed("Something went wrong with that control.")], ephemeral: true };
+        const payload = { embeds: [errorEmbed("Something went wrong with that control.")], flags: MessageFlags.Ephemeral };
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp(payload).catch(() => {});
         } else {

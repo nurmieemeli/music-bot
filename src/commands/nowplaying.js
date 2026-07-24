@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { nowPlayingEmbed } from "../util/embeds.js";
 
@@ -9,6 +9,6 @@ export default {
     const player = await requireActivePlayer(interaction, client);
     if (!player) return;
 
-    await interaction.reply({ embeds: [nowPlayingEmbed(player)], ephemeral: true });
+    await interaction.reply({ embeds: [nowPlayingEmbed(player)], flags: MessageFlags.Ephemeral });
   },
 };

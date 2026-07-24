@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { infoEmbed, errorEmbed } from "../util/embeds.js";
 
@@ -10,11 +10,11 @@ export default {
     if (!player) return;
 
     if (player.paused) {
-      await interaction.reply({ embeds: [errorEmbed("Already paused.")], ephemeral: true });
+      await interaction.reply({ embeds: [errorEmbed("Already paused.")], flags: MessageFlags.Ephemeral });
       return;
     }
 
     await player.pause();
-    await interaction.reply({ embeds: [infoEmbed("⏸️ Paused.")], ephemeral: true });
+    await interaction.reply({ embeds: [infoEmbed("⏸️ Paused.")], flags: MessageFlags.Ephemeral });
   },
 };

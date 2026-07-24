@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { getOrCreatePlayer } from "../util/voice.js";
 import { errorEmbed, infoEmbed } from "../util/embeds.js";
 import { respondWithSuggestions } from "../util/youtubeSuggest.js";
@@ -15,7 +15,7 @@ export default {
   autocomplete: respondWithSuggestions,
 
   async execute(interaction, client) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const player = await getOrCreatePlayer(interaction, client);
     if (!player) return;
