@@ -44,7 +44,10 @@ plugins:
       - WEBEMBEDDED
     oauth:
       enabled: true
-      refreshToken: "" # overridden by PLUGINS_YOUTUBE_OAUTH_REFRESHTOKEN env var once you have one
+      # No refreshToken key here on purpose: an empty string is treated as a real
+      # (invalid) token and breaks startup, instead of triggering the device-code
+      # flow. Set PLUGINS_YOUTUBE_OAUTH_REFRESHTOKEN as an env var once you have a
+      # token — see docker-compose.yml, which only passes it through when present.
 
   lavasrc:
     providers:

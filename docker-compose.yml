@@ -8,8 +8,11 @@ services:
       - LAVALINK_SERVER_PASSWORD=${LAVALINK_PASSWORD}
       - PLUGINS_LAVASRC_SPOTIFY_CLIENTID=${SPOTIFY_CLIENT_ID}
       - PLUGINS_LAVASRC_SPOTIFY_CLIENTSECRET=${SPOTIFY_CLIENT_SECRET}
-      - PLUGINS_YOUTUBE_OAUTH_REFRESHTOKEN=${YOUTUBE_OAUTH_REFRESHTOKEN}
       - _JAVA_OPTIONS=-Xmx1G
+      # Once you have a YouTube OAuth refresh token (see .env.example), add:
+      #   - PLUGINS_YOUTUBE_OAUTH_REFRESHTOKEN=${YOUTUBE_OAUTH_REFRESHTOKEN}
+      # Leave this commented out until then — an empty/blank value here breaks
+      # the OAuth device-code flow instead of triggering it.
     volumes:
       - ./lavalink/application.yml:/opt/Lavalink/application.yml:ro
     expose:
