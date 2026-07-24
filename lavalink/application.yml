@@ -38,6 +38,10 @@ plugins:
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
     clients:
+      # TV is the only client that actually uses the OAuth token, so it goes
+      # first to handle "requires login" videos; the rest are fallbacks for
+      # everything else (TV has no search/playlist metadata support on its own).
+      - TV
       - MUSIC
       - ANDROID_VR
       - WEB
