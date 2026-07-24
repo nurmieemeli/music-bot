@@ -12,6 +12,17 @@ export function infoEmbed(message) {
   return new EmbedBuilder().setColor(COLOR).setDescription(message);
 }
 
+const LOOP_LABELS = { off: "Off", track: "🔂 Track", queue: "🔁 Queue" };
+const PROGRESS_BAR_LENGTH = 20;
+
+function progressBar(position, duration) {
+  if (!Number.isFinite(duration) || duration <= 0) return "▬".repeat(PROGRESS_BAR_LENGTH);
+
+  const ratio = Math.min(1, Math.max(0, position / duration));
+  const filled = Math.round(ratio * (PROGRESS_BAR_LENGTH - 1));
+  return "▬".repeat(filled) + "🔘" + "▬".repeat(Math.max(0, PROGRESS_BAR_LENGTH - filled - 1));
+}
+
 export function nowPlayingEmbed(player) {
   const track = player.queue.current;
   if (!track) return infoEmbed("Nothing is playing.");
@@ -21,16 +32,17 @@ export function nowPlayingEmbed(player) {
 
   const embed = new EmbedBuilder()
     .setColor(COLOR)
-    .setTitle("Now Playing")
-    .setDescription(`[${track.info.title}](${track.info.uri})`)
+    .setTitle(player.paused ? "Paused" : "Now Playing")
+    .setDescription(
+      isStream
+        ? `[${track.info.title}](${track.info.uri})\n\n🔴 LIVE`
+        : `[${track.info.title}](${track.info.uri})\n\n${progressBar(position, track.info.duration)}\n${formatDuration(position)} / ${formatDuration(track.info.duration)}`,
+    )
     .addFields(
       { name: "Author", value: track.info.author || "Unknown", inline: true },
-      {
-        name: "Duration",
-        value: isStream ? "🔴 LIVE" : `${formatDuration(position)} / ${formatDuration(track.info.duration)}`,
-        inline: true,
-      },
       { name: "Requested by", value: track.requester ? `<@${track.requester.id}>` : "Unknown", inline: true },
+      { name: "Volume", value: `${player.volume}%`, inline: true },
+      { name: "Loop", value: LOOP_LABELS[player.repeatMode] ?? "Off", inline: true },
     )
     .setFooter({ text: `Source: ${track.info.sourceName}` });
 

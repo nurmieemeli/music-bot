@@ -2,6 +2,7 @@ import { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder } from "
 import { getOrCreatePlayer } from "../util/voice.js";
 import { errorEmbed, infoEmbed } from "../util/embeds.js";
 import { formatDuration } from "../util/time.js";
+import { respondWithSuggestions } from "../util/youtubeSuggest.js";
 
 const PENDING_TTL_MS = 60_000;
 const pendingSearches = new Map();
@@ -10,7 +11,11 @@ export default {
   data: new SlashCommandBuilder()
     .setName("search")
     .setDescription("Search YouTube and pick a result to queue.")
-    .addStringOption((opt) => opt.setName("query").setDescription("What to search for").setRequired(true)),
+    .addStringOption((opt) =>
+      opt.setName("query").setDescription("What to search for").setRequired(true).setAutocomplete(true),
+    ),
+
+  autocomplete: respondWithSuggestions,
 
   async execute(interaction, client) {
     await interaction.deferReply();

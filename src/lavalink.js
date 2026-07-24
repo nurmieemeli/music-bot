@@ -1,5 +1,6 @@
 import { LavalinkManager } from "lavalink-client";
-import { nowPlayingEmbed, infoEmbed, errorEmbed } from "./util/embeds.js";
+import { errorEmbed } from "./util/embeds.js";
+import { showNowPlaying, refreshNowPlaying, finalizeNowPlaying } from "./util/nowPlaying.js";
 
 async function sendToTextChannel(client, player, payload) {
   if (!player.textChannelId) return;
@@ -47,11 +48,19 @@ export function createLavalinkManager(client) {
   });
 
   manager.on("trackStart", (player) => {
-    sendToTextChannel(client, player, { embeds: [nowPlayingEmbed(player)] });
+    showNowPlaying(client, player);
+  });
+
+  manager.on("playerUpdate", (_oldPlayerJson, player) => {
+    if (player.playing) refreshNowPlaying(client, player);
   });
 
   manager.on("queueEnd", (player) => {
-    sendToTextChannel(client, player, { embeds: [infoEmbed("Queue finished. Add more with `/play`.")] });
+    finalizeNowPlaying(client, player, "Queue finished. Add more with `/play`.");
+  });
+
+  manager.on("playerDestroy", (player) => {
+    finalizeNowPlaying(client, player, "👋 Left the voice channel.");
   });
 
   manager.on("trackError", (player, track) => {

@@ -1,14 +1,17 @@
 import { SlashCommandBuilder } from "discord.js";
 import { getOrCreatePlayer } from "../util/voice.js";
 import { errorEmbed, infoEmbed } from "../util/embeds.js";
+import { respondWithSuggestions } from "../util/youtubeSuggest.js";
 
 export default {
   data: new SlashCommandBuilder()
     .setName("play")
     .setDescription("Play a song from a YouTube, Spotify, or SoundCloud link, or a search query.")
     .addStringOption((opt) =>
-      opt.setName("query").setDescription("A link or search text").setRequired(true),
+      opt.setName("query").setDescription("A link or search text").setRequired(true).setAutocomplete(true),
     ),
+
+  autocomplete: respondWithSuggestions,
 
   async execute(interaction, client) {
     await interaction.deferReply();

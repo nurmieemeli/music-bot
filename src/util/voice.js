@@ -1,3 +1,4 @@
+import { PermissionsBitField } from "discord.js";
 import { errorEmbed } from "./embeds.js";
 
 export function getVoiceChannel(interaction) {
@@ -28,6 +29,15 @@ export async function getOrCreatePlayer(interaction, client) {
   }
 
   if (existing) return existing;
+
+  const permissions = voiceChannel.permissionsFor(interaction.guild.members.me);
+  if (!permissions?.has(PermissionsBitField.Flags.Connect) || !permissions?.has(PermissionsBitField.Flags.Speak)) {
+    await interaction.reply({
+      embeds: [errorEmbed("I don't have permission to join or speak in that voice channel.")],
+      ephemeral: true,
+    });
+    return null;
+  }
 
   const player = client.lavalink.createPlayer({
     guildId: interaction.guildId,
