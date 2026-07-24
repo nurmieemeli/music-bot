@@ -25,6 +25,9 @@ export default {
     const [removedTrack] = player.queue.tracks.slice(index, index + 1);
     await player.queue.remove(index);
 
-    await interaction.reply({ embeds: [infoEmbed(`🗑️ Removed **${removedTrack.info.title}** from the queue.`)] });
+    await interaction.reply({
+      embeds: [infoEmbed(`🗑️ Removed **${removedTrack.info.title}** from the queue.`)],
+      ephemeral: true,
+    });
   },
 };

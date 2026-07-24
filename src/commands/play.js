@@ -14,7 +14,7 @@ export default {
   autocomplete: respondWithSuggestions,
 
   async execute(interaction, client) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     const player = await getOrCreatePlayer(interaction, client);
     if (!player) return;

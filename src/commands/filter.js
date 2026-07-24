@@ -46,6 +46,6 @@ export default {
     const type = interaction.options.getString("type", true);
     await APPLY[type](player.filterManager);
 
-    await interaction.reply({ embeds: [infoEmbed(LABELS[type])] });
+    await interaction.reply({ embeds: [infoEmbed(LABELS[type])], ephemeral: true });
   },
 };

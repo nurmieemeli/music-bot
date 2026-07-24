@@ -18,7 +18,7 @@ export default {
       return;
     }
 
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     if (!process.env.GENIUS_API_KEY) {
       await interaction.editReply({ embeds: [errorEmbed("Lyrics lookup isn't configured (missing GENIUS_API_KEY).")] });

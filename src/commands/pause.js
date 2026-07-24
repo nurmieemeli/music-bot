@@ -15,6 +15,6 @@ export default {
     }
 
     await player.pause();
-    await interaction.reply({ embeds: [infoEmbed("⏸️ Paused.")] });
+    await interaction.reply({ embeds: [infoEmbed("⏸️ Paused.")], ephemeral: true });
   },
 };

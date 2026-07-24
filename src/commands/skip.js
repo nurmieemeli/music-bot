@@ -16,6 +16,6 @@ export default {
 
     const skipped = player.queue.current;
     await player.skip();
-    await interaction.reply({ embeds: [infoEmbed(`⏭️ Skipped **${skipped.info.title}**.`)] });
+    await interaction.reply({ embeds: [infoEmbed(`⏭️ Skipped **${skipped.info.title}**.`)], ephemeral: true });
   },
 };

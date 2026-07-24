@@ -9,6 +9,6 @@ export default {
     const player = await requireActivePlayer(interaction, client);
     if (!player) return;
 
-    await interaction.reply({ embeds: [nowPlayingEmbed(player)] });
+    await interaction.reply({ embeds: [nowPlayingEmbed(player)], ephemeral: true });
   },
 };

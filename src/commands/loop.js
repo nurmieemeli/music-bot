@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { infoEmbed } from "../util/embeds.js";
+import { refreshNowPlaying } from "../util/nowPlaying.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -26,6 +27,7 @@ export default {
     await player.setRepeatMode(mode);
 
     const labels = { off: "🔁 Loop disabled.", track: "🔂 Looping current track.", queue: "🔁 Looping the queue." };
-    await interaction.reply({ embeds: [infoEmbed(labels[mode])] });
+    await interaction.reply({ embeds: [infoEmbed(labels[mode])], ephemeral: true });
+    await refreshNowPlaying(client, player);
   },
 };

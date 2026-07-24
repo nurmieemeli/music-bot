@@ -9,7 +9,7 @@ export default {
     .addStringOption((opt) => opt.setName("url").setDescription("Playlist link").setRequired(true)),
 
   async execute(interaction, client) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     const player = await getOrCreatePlayer(interaction, client);
     if (!player) return;

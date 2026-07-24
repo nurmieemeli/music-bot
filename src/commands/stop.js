@@ -10,6 +10,6 @@ export default {
     if (!player) return;
 
     await player.destroy();
-    await interaction.reply({ embeds: [infoEmbed("⏹️ Stopped and left the voice channel.")] });
+    await interaction.reply({ embeds: [infoEmbed("⏹️ Stopped and left the voice channel.")], ephemeral: true });
   },
 };

@@ -1,16 +1,6 @@
 import { LavalinkManager } from "lavalink-client";
 import { errorEmbed } from "./util/embeds.js";
-import { showNowPlaying, refreshNowPlaying, finalizeNowPlaying } from "./util/nowPlaying.js";
-
-async function sendToTextChannel(client, player, payload) {
-  if (!player.textChannelId) return;
-  try {
-    const channel = await client.channels.fetch(player.textChannelId);
-    if (channel?.isTextBased()) await channel.send(payload);
-  } catch {
-    // channel gone or no permission — ignore, playback continues regardless
-  }
-}
+import { showNowPlaying, refreshNowPlaying, finalizeNowPlaying, flashPanelStatus } from "./util/nowPlaying.js";
 
 export function createLavalinkManager(client) {
   const manager = new LavalinkManager({
@@ -64,15 +54,12 @@ export function createLavalinkManager(client) {
   });
 
   manager.on("trackError", (player, track) => {
-    sendToTextChannel(client, player, {
-      embeds: [errorEmbed(`Failed to play **${track?.info?.title ?? "track"}**, skipping.`)],
-    });
+    // autoSkip moves to the next track immediately after, which overwrites this.
+    flashPanelStatus(client, player, errorEmbed(`Failed to play **${track?.info?.title ?? "track"}**, skipping.`));
   });
 
   manager.on("trackStuck", (player, track) => {
-    sendToTextChannel(client, player, {
-      embeds: [errorEmbed(`Playback stalled on **${track?.info?.title ?? "track"}**, skipping.`)],
-    });
+    flashPanelStatus(client, player, errorEmbed(`Playback stalled on **${track?.info?.title ?? "track"}**, skipping.`));
   });
 
   manager.nodeManager.on("connect", (node) => {

@@ -15,6 +15,6 @@ export default {
     }
 
     await player.resume();
-    await interaction.reply({ embeds: [infoEmbed("▶️ Resumed.")] });
+    await interaction.reply({ embeds: [infoEmbed("▶️ Resumed.")], ephemeral: true });
   },
 };

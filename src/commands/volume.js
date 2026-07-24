@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { requireActivePlayer } from "../util/voice.js";
 import { infoEmbed } from "../util/embeds.js";
+import { refreshNowPlaying } from "../util/nowPlaying.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -17,6 +18,7 @@ export default {
     const level = interaction.options.getInteger("level", true);
     await player.setVolume(level);
 
-    await interaction.reply({ embeds: [infoEmbed(`🔊 Volume set to ${level}%.`)] });
+    await interaction.reply({ embeds: [infoEmbed(`🔊 Volume set to ${level}%.`)], ephemeral: true });
+    await refreshNowPlaying(client, player);
   },
 };
