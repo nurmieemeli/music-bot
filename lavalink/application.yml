@@ -4,8 +4,11 @@ server:
 
 lavalink:
   plugins:
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.18.1"
-      repository: "https://maven.lavalink.dev/releases"
+    # Using a snapshot build, not the 1.18.1 release: YouTube's player script
+    # changed in a way the 1.18.1 release can't parse ("Must find sig function"),
+    # and the fix landed on the snapshot branch ahead of a new stable release.
+    - dependency: "dev.lavalink.youtube:youtube-plugin:c46ab888ee12bc4bcb37c8ebcaf180e85ae30368"
+      snapshot: true
     - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.3"
       repository: "https://maven.lavalink.dev/releases"
 
