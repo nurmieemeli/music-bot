@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { getOrCreatePlayer } from "../util/voice.js";
 import { errorEmbed, infoEmbed } from "../util/embeds.js";
 import { respondWithSuggestions } from "../util/youtubeSuggest.js";
+import { extractYoutubeVideoId } from "../util/youtubeUrl.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -19,7 +20,9 @@ export default {
     const player = await getOrCreatePlayer(interaction, client);
     if (!player) return;
 
-    const query = interaction.options.getString("query", true);
+    const rawQuery = interaction.options.getString("query", true);
+    const videoId = extractYoutubeVideoId(rawQuery);
+    const query = videoId ? `ytsearch:${videoId}` : rawQuery;
     const res = await player.search({ query }, interaction.user);
 
     if (res.loadType === "error") {
