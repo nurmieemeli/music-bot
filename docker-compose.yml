@@ -11,7 +11,6 @@ services:
       - _JAVA_OPTIONS=-Xmx1G
     volumes:
       - ./lavalink/application.yml:/opt/Lavalink/application.yml:ro
-      - lavalink_plugins:/opt/Lavalink/plugins
     expose:
       - "2333"
     networks:
@@ -33,6 +32,3 @@ services:
 
 networks:
   music-bot:
-
-volumes:
-  lavalink_plugins:
