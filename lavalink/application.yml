@@ -4,8 +4,13 @@ server:
 
 lavalink:
   plugins:
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.18.1"
-      repository: "https://maven.lavalink.dev/releases"
+    # Snapshot, not the 1.18.1 release: fixes a SABR-fallback bug where
+    # progressive itag 18 streams get routed to the wrong decoder and fail
+    # with "Expected decoding to halt" (fixed upstream in commit e66ec36,
+    # included here; not yet in a stable release). Needed together with the
+    # remoteCipher config below, which fixes a separate, unrelated issue.
+    - dependency: "dev.lavalink.youtube:youtube-plugin:c46ab888ee12bc4bcb37c8ebcaf180e85ae30368"
+      snapshot: true
     - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.3"
       repository: "https://maven.lavalink.dev/releases"
 
